@@ -1,9 +1,9 @@
 const mysql = require('mysql2/promise');
-const dbConfigs = require('../dbConfigs');
+const { dbConfig } = require('../dbConfigs');
 
 async function insertTodoDb(data) {
   try {
-    const connection = await mysql.createConnection(dbConfigs);
+    const connection = await mysql.createConnection(dbConfig);
     const sql = `
     INSERT INTO list (title) 
     VALUES (?)`;
@@ -17,7 +17,7 @@ async function insertTodoDb(data) {
 
 async function getDataFromDb() {
   try {
-    const connection = await mysql.createConnection(dbConfigs);
+    const connection = await mysql.createConnection(dbConfig);
     const sql = `
     SELECT * FROM list`;
     const [data] = await connection.execute(sql);
@@ -30,7 +30,7 @@ async function getDataFromDb() {
 
 async function updateTask(data, id) {
   try {
-    const connection = await mysql.createConnection(dbConfigs);
+    const connection = await mysql.createConnection(dbConfig);
     const [result] = await connection.execute(`
     UPDATE list
     SET title = ${mysql.escape(data.title)}
@@ -44,7 +44,7 @@ async function updateTask(data, id) {
 
 async function deleteTask(id) {
   try {
-    const connection = await mysql.createConnection(dbConfigs);
+    const connection = await mysql.createConnection(dbConfig);
     const sql = `
     DELETE FROM list 
     WHERE id = ${mysql.escape(id)}
